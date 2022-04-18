@@ -1,25 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {useMachine} from '@xstate/react';
+import {trafficLightMachine} from './machines/traffic-light-machine';
 
 function App() {
+  const [state,send]=useMachine(trafficLightMachine)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div className="container">
+      <input type="radio" name="traffic-light" readOnly className='light red' checked={state.matches('red')}/>
+      <input type="radio" name="traffic-light" readOnly className='light yellow' checked={state.matches('yellow')}/>
+      <input type="radio" name="traffic-light" readOnly className='light green' checked={state.matches('green')} />
+      <button type='button' onClick={()=>send("NEXT")}>NEXT</button>
+   </div>
   );
 }
 
